@@ -1,0 +1,63 @@
+# .NET Core build folders
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.csproj.user
+*.userprefs
+*.vscode/
+*.vssettings
+.vscode/
+*.njsproj
+*.sln.docstates
+*.suo
+*.sln.ide
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+TestResults/
+[Tt]est[Rr]esult*/
+*.dbmdl
+*.log
+*.tlog
+*.cache
+*.ilk
+*.mdf
+*.ldf
+*.sdf
+*.pdb
+*.gpstate
+
+# NuGet
+packages/
+*.nupkg
+*.pfx
+
+# User-specific files
+*.user
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Visual Studio code coverage
+*.coverage
+*.coveragexml
+
+# Other generated files
+_ReSharper*/
+*.resharper*
+*.dotCover
+*.crdownload
+*.suo
+*.swp

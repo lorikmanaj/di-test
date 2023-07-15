@@ -2,7 +2,7 @@
 using AMS.Application.Helpers;
 using AMS.Application.Interfaces;
 using AMS.Domain.Models;
-using AMS.Web.ViewModels;
+using AMS.Web.ViewModels.Requests;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

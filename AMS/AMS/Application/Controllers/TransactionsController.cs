@@ -1,6 +1,6 @@
 ﻿using AMS.Application.Exceptions;
 using AMS.Application.Interfaces;
-using AMS.Web.ViewModels;
+using AMS.Web.ViewModels.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

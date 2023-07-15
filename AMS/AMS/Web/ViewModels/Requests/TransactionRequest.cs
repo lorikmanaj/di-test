@@ -1,7 +1,7 @@
 ﻿using AMS.Domain.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace AMS.Web.ViewModels
+namespace AMS.Web.ViewModels.Requests
 {
     public class TransactionRequest
     {

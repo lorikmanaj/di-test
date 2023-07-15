@@ -1,6 +1,8 @@
 ﻿using AMS.Data;
 using AMS.Domain;
+using AMS.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace AMS.Infrastructure.Repositories
 {
@@ -13,6 +15,11 @@ namespace AMS.Infrastructure.Repositories
         {
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<T>();
+        }
+
+        public async Task<User> GetFirstOrDefaultAsync(Expression<Func<User, bool>> predicate)
+        {
+            return await _dbContext.Users.FirstOrDefaultAsync(predicate);
         }
 
         public T GetById(int id)

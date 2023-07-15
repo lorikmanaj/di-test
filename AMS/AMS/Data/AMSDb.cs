@@ -1,4 +1,4 @@
-﻿using AMS.Models;
+﻿using AMS.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AMS.Data // Replace with the correct namespace for your application

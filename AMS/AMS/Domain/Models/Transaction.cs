@@ -1,4 +1,4 @@
-﻿namespace AMS.Models
+﻿namespace AMS.Domain.Models
 {
     public class Transaction
     {

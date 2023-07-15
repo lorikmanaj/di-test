@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using AMS.Data; // Replace with the correct namespace for your DbContext
 using Microsoft.EntityFrameworkCore;
 

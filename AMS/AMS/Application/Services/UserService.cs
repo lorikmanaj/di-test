@@ -172,7 +172,7 @@ namespace AMS.Application.Services
         public async Task<bool> ChangePassword(int userId, string currentPassword, string newPassword)
         {
             var user = await _userService.GetUserById(userId) ?? throw new NotFoundException("User not found.");
-            
+
             var passwordHasher = new PasswordHasher<User>();
 
             var verifyResult = passwordHasher.VerifyHashedPassword(user, user.Password, currentPassword);

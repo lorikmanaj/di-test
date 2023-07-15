@@ -1,10 +1,12 @@
 ﻿using AMS.Application.Interfaces;
 using AMS.Application.Services;
+using AMS.Config;
 using AMS.Domain;
 using AMS.Domain.Models;
 using AMS.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Text;
 
@@ -31,8 +33,7 @@ namespace AMS
                 });
             });
 
-            var appSettings = _configuration.GetSection("AppSettings").Get<AMS.Config.AppSetings>();
-            services.AddSingleton(appSettings);
+            services.Configure<AppSetings>(_configuration.GetSection("Jwt"));
 
             var jwtSettings = _configuration.GetSection("Jwt");
             var issuer = jwtSettings.GetValue<string>("Issuer");
@@ -65,6 +66,8 @@ namespace AMS
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
 
+            services.AddHttpContextAccessor();
+
             // Generic
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IGenericRepository<Transaction>, GenericRepository<Transaction>>();
@@ -77,6 +80,12 @@ namespace AMS
             services.AddScoped<ITransactionService, TransactionService>();
 
             services.AddControllers();
+
+            // Swagger configuration
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AMS", Version = "v1" });
+            });
         }
 
         public void Configure(IApplicationBuilder app)
@@ -88,6 +97,13 @@ namespace AMS
             app.UseSerilogRequestLogging();
 
             app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AMS API v1");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseEndpoints(endpoints =>
             {

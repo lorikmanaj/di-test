@@ -1,4 +1,4 @@
-﻿using AMS.Application.Handlers;
+﻿using AMS.Application.Handlers.Contracts;
 using AMS.Web.ViewModels.Accounts.Commands;
 using AMS.Web.ViewModels.Responses;
 using Microsoft.AspNetCore.Authentication;
@@ -71,5 +71,4 @@ namespace AMS.Application.Controllers
             return Ok(new ApiResponse<string> { Success = true });
         }
     }
-
 }

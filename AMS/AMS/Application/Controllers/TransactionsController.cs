@@ -1,4 +1,5 @@
-﻿using AMS.Application.Interfaces;
+﻿using AMS.Application.Exceptions;
+using AMS.Application.Interfaces;
 using AMS.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +33,7 @@ namespace AMS.Application.Controllers
         public IActionResult CreateTransaction(TransactionRequest request)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                throw new ValidationException("Invalid request data.");
 
             try
             {

@@ -78,12 +78,15 @@ namespace AMS
 
         public void Configure(IApplicationBuilder app)
         {
-            // ...
             app.UseCors("AllowAll");
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-            // ...
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

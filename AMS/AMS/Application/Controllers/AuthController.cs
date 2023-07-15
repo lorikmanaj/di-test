@@ -1,4 +1,5 @@
-﻿using AMS.Application.Helpers;
+﻿using AMS.Application.Exceptions;
+using AMS.Application.Helpers;
 using AMS.Application.Interfaces;
 using AMS.Domain.Models;
 using AMS.Web.ViewModels;
@@ -33,17 +34,14 @@ namespace YourNamespace.Controllers
         [HttpPost("register")]
         public IActionResult Register(RegisterRequest request)
         {
-            // Perform validation
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                throw new ValidationException("Invalid request data.");
 
-            // Register the user
             var registerResult = _userService.RegisterAsync(request);
 
             if (!registerResult.Result.Success)
                 return BadRequest(registerResult.Result);
 
-            // Return the registered user or a custom result object if desired
             return Ok(registerResult.Result.Message);
         }
 
@@ -52,7 +50,7 @@ namespace YourNamespace.Controllers
         public IActionResult Login(LoginRequest request)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                throw new ValidationException("Invalid request data.");
 
             var loginResult = _userService.LoginAsync(request).Result;
 

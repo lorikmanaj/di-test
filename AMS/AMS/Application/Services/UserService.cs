@@ -1,4 +1,5 @@
-﻿using AMS.Application.HandlerModels;
+﻿using AMS.Application.Exceptions;
+using AMS.Application.HandlerModels;
 using AMS.Application.Interfaces;
 using AMS.Config;
 using AMS.Data;
@@ -16,13 +17,15 @@ namespace AMS.Application.Services
 {
     public class UserService : GenericRepository<User>, IUserService
     {
+        private readonly IUserService _userService;
         private readonly UserManager<User> _userManager;
         private readonly AppSetings _appSettings;
         private readonly AMSDb _dbContext;
 
-        public UserService(UserManager<User> userManager, IOptions<AppSetings> appSettings, AMSDb dbContext)
+        public UserService(IUserService userService, UserManager<User> userManager, IOptions<AppSetings> appSettings, AMSDb dbContext)
             : base(dbContext)
         {
+            _userService = userService;
             _userManager = userManager;
             _appSettings = appSettings.Value;
             _dbContext = dbContext;
@@ -34,7 +37,11 @@ namespace AMS.Application.Services
 
             var user = new User
             {
-                Name = request.Name,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                Password = request.Password,
+                Age = request.Age,
                 Accounts = new List<Account>()
             };
 
@@ -44,6 +51,16 @@ namespace AMS.Application.Services
                 return new RegisterResult { Success = true, Message = "User registered successfully" };
             else
                 return new RegisterResult { Success = false, Message = "Failed to register user" };
+        }
+
+        public User GetUserById(int userId)
+        {
+            var user = _userService.GetById(userId);
+
+            if (user == null)
+                throw new NotFoundException("User not found.");
+
+            return user;
         }
 
         public async Task<LoginResult> LoginAsync(LoginRequest request)

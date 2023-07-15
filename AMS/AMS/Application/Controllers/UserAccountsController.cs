@@ -1,4 +1,5 @@
-﻿using AMS.Application.Interfaces;
+﻿using AMS.Application.Exceptions;
+using AMS.Application.Interfaces;
 using AMS.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,7 @@ namespace AMS.Application.Controllers
         public IActionResult CreateAccount(Account account)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                throw new ValidationException("Invalid request data.");
 
             try
             {
@@ -55,7 +56,7 @@ namespace AMS.Application.Controllers
         public IActionResult UpdateAccount(int id, Account account)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                throw new ValidationException("Invalid request data.");
 
             if (id != account.Id)
                 return BadRequest("Account ID mismatch");

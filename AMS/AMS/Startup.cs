@@ -5,6 +5,7 @@ using AMS.Domain.Models;
 using AMS.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
 
 namespace AMS
@@ -30,14 +31,6 @@ namespace AMS
                 });
             });
 
-            services.AddSession(options =>
-            {
-                options.Cookie.HttpOnly = true;
-                options.Cookie.SameSite = SameSiteMode.Strict;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
-            });
-
             var appSettings = _configuration.GetSection("AppSettings").Get<AMS.Config.AppSetings>();
             services.AddSingleton(appSettings);
 
@@ -46,10 +39,13 @@ namespace AMS
             var audience = jwtSettings.GetValue<string>("Audience");
             var secretKey = jwtSettings.GetValue<string>("SecretKey");
 
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(_configuration)
+                .CreateLogger();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
-                        // Configure JWT bearer authentication options
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
                             ValidateIssuer = true,
@@ -61,14 +57,21 @@ namespace AMS
                         };
                     });
 
-            //Generic
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddSession(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
 
+            // Generic
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IGenericRepository<Transaction>, GenericRepository<Transaction>>();
             services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
             services.AddScoped<IGenericRepository<Account>, GenericRepository<Account>>();
 
-            // Other service configurations...
+            // Service configurations
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITransactionService, TransactionService>();
@@ -81,6 +84,9 @@ namespace AMS
             app.UseCors("AllowAll");
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSerilogRequestLogging();
+
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseEndpoints(endpoints =>

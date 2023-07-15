@@ -63,6 +63,10 @@ namespace AMS.Application.Controllers
             return Ok("Logout successful");
         }
 
-        // Other actions for additional account management features
+        public IActionResult Index()
+        {
+            _logger.LogInformation("Account page accessed");
+            return Ok();
+        }
     }
 }

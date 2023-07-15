@@ -11,11 +11,13 @@ namespace AMS.Application.Controllers
     [Authorize]
     public class UserAccountsController : ControllerBase
     {
+        private readonly ILogger<UserAccountsController> _logger;
         private readonly IAccountService _accountService;
 
-        public UserAccountsController(IAccountService accountService)
+        public UserAccountsController(IAccountService accountService, ILogger<UserAccountsController> logger)
         {
             _accountService = accountService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -80,6 +82,12 @@ namespace AMS.Application.Controllers
                 return NotFound();
 
             _accountService.DeleteAccount(id);
+            return Ok();
+        }
+
+        public IActionResult Index()
+        {
+            _logger.LogInformation("UserAccounts controller accessed");
             return Ok();
         }
     }

@@ -18,17 +18,19 @@ namespace YourNamespace.Controllers
     [Route("api/auth")]
     public class AuthController : ControllerBase
     {
+        private readonly ILogger<AuthController> _logger;
         private readonly IUserService _userService;
         private readonly AMS.Config.AppSetings _appSettings;
         private readonly IConfiguration _configuration;
 
-        public AuthController(IUserService userService, IConfiguration configuration, IOptions<AMS.Config.AppSetings> appSettings)
+        public AuthController(IUserService userService, IConfiguration configuration, 
+            IOptions<AMS.Config.AppSetings> appSettings, ILogger<AuthController> logger)
         {
             _userService = userService;
             _appSettings = appSettings.Value;
             _configuration = configuration;
+            _logger = logger;
         }
-
 
         [AllowAnonymous]
         [HttpPost("register")]
@@ -63,7 +65,6 @@ namespace YourNamespace.Controllers
             return Ok(new { Token = token });
         }
 
-
         [HttpPost("logout")]
         public async Task<IActionResult> LogoutAsync()
         {
@@ -76,8 +77,12 @@ namespace YourNamespace.Controllers
             return Ok(new { Message = "User logged out successfully" });
         }
 
+        public IActionResult Index()
+        {
+            _logger.LogInformation("Auth controller accessed");
+            return Ok();
+        }
 
-        // Helper method to generate JWT token
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

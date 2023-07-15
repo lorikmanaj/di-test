@@ -9,11 +9,13 @@ namespace AMS.Application.Controllers
     [Route("api/users")]
     public class UserController : ControllerBase
     {
+        private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, ILogger<UserController> logger)
         {
             _userService = userService;
+            _logger = logger;
         }
 
         [HttpPost("register")]
@@ -40,6 +42,10 @@ namespace AMS.Application.Controllers
 
             return Ok(user);
         }
+        public IActionResult Index()
+        {
+            _logger.LogInformation("User controller accessed");
+            return Ok();
+        }
     }
-
 }

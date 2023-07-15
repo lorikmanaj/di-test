@@ -1,6 +1,8 @@
 ﻿using AMS.Application.Exceptions;
 using AMS.Application.Interfaces;
+using AMS.Domain.Models;
 using AMS.Web.ViewModels.Requests;
+using AMS.Web.ViewModels.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,9 +28,9 @@ namespace AMS.Application.Controllers
             var transaction = _transactionService.GetTransactionById(id);
 
             if (transaction == null)
-                return NotFound();
+                return NotFound(new ErrorApiResponse { Message = "Transaction not found" });
 
-            return Ok(transaction);
+            return Ok(new ApiResponse<Transaction> { Success = true, Data = transaction });
         }
 
         [HttpPost]
@@ -40,22 +42,23 @@ namespace AMS.Application.Controllers
             try
             {
                 _transactionService.CreateTransaction(request.AccountId, request.Amount, request.Type);
-                return Ok();
+                return Ok(new ApiResponse<string> { Success = true, Message = "Transaction created successfully" });
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new ErrorApiResponse { Message = ex.Message });
             }
             catch (InvalidOperationException ex)
             {
-                return Conflict(ex.Message);
+                return Conflict(new ErrorApiResponse { Message = ex.Message });
             }
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             _logger.LogInformation("Transactions controller accessed");
-            return Ok();
+            return Ok(new ApiResponse<string> { Success = true });
         }
     }
 }

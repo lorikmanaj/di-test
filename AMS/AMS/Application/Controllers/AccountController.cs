@@ -1,5 +1,6 @@
 ﻿using AMS.Application.Accounts.Commands;
 using AMS.Application.Handlers;
+using AMS.Web.ViewModels.Responses;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -25,25 +26,25 @@ namespace AMS.Application.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult Register(RegisterCommand command)
+        public async Task<IActionResult> Register(RegisterCommand command)
         {
-            var result = _registerCommandHandler.Handle(command);
+            var result = await _registerCommandHandler.Handle(command);
 
-            if (result.Result.Success)
-                return Ok("Registration successful");
+            if (result.Success)
+                return Ok(new ApiResponse<string> { Success = true, Message = "Registration successful" });
 
-            return BadRequest(result.Result.Message);
+            return BadRequest(new ErrorApiResponse { Message = result.Message });
         }
 
         [HttpPost("login")]
-        public IActionResult Login(LoginCommand command)
+        public async Task<IActionResult> Login(LoginCommand command)
         {
-            var result = _loginCommandHandler.Handle(command);
+            var result = await _loginCommandHandler.Handle(command);
 
-            if (result.Result.Success)
-                return Ok(result.Result.Token);
+            if (result.Success)
+                return Ok(new ApiResponse<string> { Success = true, Data = result.Token });
 
-            return BadRequest(result.Result.Message);
+            return BadRequest(new ErrorApiResponse { Message = result.Message });
         }
 
         [HttpPost("logout")]
@@ -60,13 +61,15 @@ namespace AMS.Application.Controllers
                 HttpContext.Session.Clear();
             }
 
-            return Ok("Logout successful");
+            return Ok(new ApiResponse<string> { Success = true, Message = "Logout successful" });
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             _logger.LogInformation("Account page accessed");
-            return Ok();
+            return Ok(new ApiResponse<string> { Success = true });
         }
     }
+
 }

@@ -1,6 +1,7 @@
 ﻿using AMS.Application.Exceptions;
 using AMS.Application.Interfaces;
 using AMS.Domain.Models;
+using AMS.Web.ViewModels.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +25,7 @@ namespace AMS.Application.Controllers
         public IActionResult GetAccounts()
         {
             IEnumerable<Account> accounts = _accountService.GetAccounts();
-            return Ok(accounts);
+            return Ok(new ApiResponse<IEnumerable<Account>> { Data = accounts });
         }
 
         [HttpGet("{id}")]
@@ -32,9 +33,9 @@ namespace AMS.Application.Controllers
         {
             Account account = _accountService.GetAccountById(id);
             if (account == null)
-                return NotFound();
+                return NotFound(new ErrorApiResponse { Message = "Account not found" });
 
-            return Ok(account);
+            return Ok(new ApiResponse<Account> { Data = account });
         }
 
         [HttpPost]
@@ -50,7 +51,7 @@ namespace AMS.Application.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new ErrorApiResponse { Message = ex.Message });
             }
         }
 
@@ -61,7 +62,7 @@ namespace AMS.Application.Controllers
                 throw new ValidationException("Invalid request data.");
 
             if (id != account.Id)
-                return BadRequest("Account ID mismatch");
+                return BadRequest(new ErrorApiResponse { Message = "Account ID mismatch" });
 
             try
             {
@@ -70,7 +71,7 @@ namespace AMS.Application.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new ErrorApiResponse { Message = ex.Message });
             }
         }
 
@@ -79,7 +80,7 @@ namespace AMS.Application.Controllers
         {
             Account account = _accountService.GetAccountById(id);
             if (account == null)
-                return NotFound();
+                return NotFound(new ErrorApiResponse { Message = "Account not found" });
 
             _accountService.DeleteAccount(id);
             return Ok();

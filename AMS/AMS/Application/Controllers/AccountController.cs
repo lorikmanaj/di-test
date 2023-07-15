@@ -1,5 +1,5 @@
-﻿using AMS.Application.Accounts.Commands;
-using AMS.Application.Handlers;
+﻿using AMS.Application.Handlers;
+using AMS.Web.ViewModels.Accounts.Commands;
 using AMS.Web.ViewModels.Responses;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;

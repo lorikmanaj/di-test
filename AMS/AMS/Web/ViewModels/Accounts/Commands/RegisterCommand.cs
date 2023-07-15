@@ -1,4 +1,4 @@
-﻿namespace AMS.Application.Accounts.Commands
+﻿namespace AMS.Web.ViewModels.Accounts.Commands
 {
     public class RegisterCommand
     {

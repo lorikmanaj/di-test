@@ -1,4 +1,4 @@
-﻿namespace AMS.Application.HandlerModels
+﻿namespace AMS.Web.ViewModels.HandlerModels
 {
     public class RegisterResult
     {

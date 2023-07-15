@@ -1,6 +1,6 @@
-﻿using AMS.Application.HandlerModels;
-using AMS.Domain;
+﻿using AMS.Domain;
 using AMS.Domain.Models;
+using AMS.Web.ViewModels.HandlerModels;
 using AMS.Web.ViewModels.Requests;
 using AMS.Web.ViewModels.Results;
 

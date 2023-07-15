@@ -1,5 +1,5 @@
-﻿using AMS.Application.Accounts.Commands;
-using AMS.Application.HandlerModels;
+﻿using AMS.Web.ViewModels.Accounts.Commands;
+using AMS.Web.ViewModels.HandlerModels;
 
 namespace AMS.Application.Handlers
 {

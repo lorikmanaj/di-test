@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AMS.Application.Controllers
 {
     [ApiController]
-    [Route("api/accounts")]
+    [Route("api/useraccounts")]
     [Authorize]
     public class UserAccountsController : ControllerBase
     {

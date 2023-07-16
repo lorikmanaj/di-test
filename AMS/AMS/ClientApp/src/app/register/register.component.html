@@ -1,0 +1,32 @@
+<div class="register-container">
+    <h2>Registration</h2>
+    <form>
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" class="form-control" required [(ngModel)]="user.userName">
+      </div>
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" class="form-control" required [(ngModel)]="user.firstName">
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" class="form-control" required [(ngModel)]="user.lastName">
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" class="form-control" [(ngModel)]="user.email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" class="form-control" required [(ngModel)]="user.password">
+      </div>
+      <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" class="form-control" required [(ngModel)]="user.age">
+      </div>
+      <button class="btn btn-success" (click)="register()">Register</button>
+    </form>
+    <div class="error-message" *ngIf="isError">{{ errorMessage }}</div>
+</div>
+  

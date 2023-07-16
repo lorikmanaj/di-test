@@ -4,6 +4,9 @@ namespace AMS.Web.ViewModels.Requests
 {
     public class RegisterRequest
     {
+        [Required(ErrorMessage = "Username is required.")]
+        public string UserName { get; set; }
+
         [Required(ErrorMessage = "First name is required.")]
         public string FirstName { get; set; }
 

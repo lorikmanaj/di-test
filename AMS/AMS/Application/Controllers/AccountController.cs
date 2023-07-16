@@ -8,7 +8,7 @@ using System.Security.Claims;
 namespace AMS.Application.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/accounts")]
     public class AccountController : ControllerBase
     {
         private readonly ILogger<AccountController> _logger;
@@ -26,7 +26,7 @@ namespace AMS.Application.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterCommand command)
+        public async Task<IActionResult> Register([FromBody] RegisterCommand command)
         {
             var result = await _registerCommandHandler.Handle(command);
 

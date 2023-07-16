@@ -47,6 +47,7 @@ namespace AMS.Application.Services
 
             var user = new User
             {
+                UserName = request.UserName,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,

@@ -27,9 +27,9 @@ namespace AMS
             {
                 options.AddPolicy("AllowAll", builder =>
                 {
-                    builder.AllowAnyOrigin()
-                           .AllowAnyMethod()
-                           .AllowAnyHeader();
+                    builder.AllowAnyOrigin()//.WithOrigins("http://localhost:44417")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
                 });
             });
 

@@ -39,10 +39,7 @@ namespace AMS.Application.Controllers
         {
             var user = await _userService.GetUserById(userId);
 
-            if (user == null)
-                throw new NotFoundException("User not found.");
-
-            return Ok(new ApiResponse<User> { Data = user });
+            return user == null ? throw new NotFoundException("User not found.") : (IActionResult)Ok(new ApiResponse<User> { Data = user });
         }
 
         public IActionResult Index()
